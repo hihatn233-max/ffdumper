@@ -14,10 +14,17 @@ jobs:
           sudo mv ldid_linux_x86_64 /usr/local/bin/ldid
           sudo chmod +x /usr/local/bin/ldid
           
-      - name: Install Theos and Headers
+      - name: Install Theos and Toolchain
         run: |
           export THEOS=$HOME/theos
           git clone --recursive https://github.com/theos/theos.git $THEOS
+          
+          # Tải bộ biên dịch iOS cho Linux
+          rm -rf $THEOS/toolchain
+          git clone --depth 1 https://github.com/theos/toolchain.git $THEOS/toolchain
+          cd $THEOS/toolchain
+          ./bootstrap.sh
+          
           rm -rf $THEOS/sdks
           git clone https://github.com/theos/sdks.git $THEOS/sdks
           mkdir -p $THEOS/include
