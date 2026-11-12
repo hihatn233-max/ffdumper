@@ -2,24 +2,20 @@ name: Build Tweak
 on: [push, workflow_dispatch]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       
       - name: Install Dependencies
         run: |
-          sudo apt-get update
-          sudo apt-get install -y make git curl xz-utils libssl-dev libplist-dev zstd clang
-          curl -LO https://github.com/ProcursusTeam/ldid/releases/latest/download/ldid_linux_x86_64
-          sudo mv ldid_linux_x86_64 /usr/local/bin/ldid
-          sudo chmod +x /usr/local/bin/ldid
+          brew install ldid xz
           
-      - name: Install Theos
+      - name: Install Theos and Setup
         run: |
           export THEOS=$HOME/theos
           git clone --recursive https://github.com/theos/theos.git $THEOS
           rm -rf $THEOS/sdks
-          git clone https://github.com/theos/sdks.git $THEOS/sdks
+          git clone --depth 1 https://github.com/theos/sdks.git $THEOS/sdks
           mkdir -p $THEOS/include
           curl -L https://raw.githubusercontent.com/theos/headers/master/substrate/substrate.h -o $THEOS/include/substrate.h
           
