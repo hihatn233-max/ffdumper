@@ -4,11 +4,10 @@ INSTALL_TARGET_PROCESSES = FreeFire
 
 include $(THEOS)/makefiles/common.mk
 
-TWEAK_NAME = FFOffsetDumper
-
-FFOffsetDumper_FILES = main.mm FFOffsetDumper.cpp
-FFOffsetDumper_CFLAGS = -fobjc-arc -std=c++17 -Wall -Wextra -Wno-unused-parameter -I$(THEOS)/include
-FFOffsetDumper_FRAMEWORKS = Foundation
-FFOffsetDumper_LIBRARIES = substrate
+TWEAK_NAME = FFCheat
+FFCheat_FILES = Tweak.xm
+FFCheat_CFLAGS = -fobjc-arc -std=c++17 -Wall -Wno-unused-variable -Wno-unused-function
+FFCheat_FRAMEWORKS = Foundation UIKit QuartzCore
+FFCheat_LIBRARIES = substrate
 
 include $(THEOS_MAKE_PATH)/tweak.mk
