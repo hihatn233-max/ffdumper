@@ -20,8 +20,12 @@ jobs:
           git clone --recursive https://github.com/theos/theos.git $THEOS
           rm -rf $THEOS/sdks
           git clone https://github.com/theos/sdks.git $THEOS/sdks
-          git clone https://github.com/theos/headers.git $HOME/theos-headers
-          cp -r $HOME/theos-headers/substrate $THEOS/include/
+          
+      - name: Setup Substrate Header
+        run: |
+          export THEOS=$HOME/theos
+          mkdir -p $THEOS/include
+          curl -L https://raw.githubusercontent.com/theos/headers/master/substrate/substrate.h -o $THEOS/include/substrate.h
           
       - name: Build Tweak
         run: |
@@ -32,5 +36,5 @@ jobs:
       - name: Upload deb
         uses: actions/upload-artifact@v4
         with:
-          name: ffdumper-deb
+          name: ffcheat-deb
           path: packages/*.deb
