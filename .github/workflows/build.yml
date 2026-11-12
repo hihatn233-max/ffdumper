@@ -9,21 +9,19 @@ jobs:
       - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y make git curl xz-utils libssl-dev libplist-dev
+          sudo apt-get install -y make git curl xz-utils libssl-dev libplist-dev zstd
           curl -LO https://github.com/ProcursusTeam/ldid/releases/latest/download/ldid_linux_x86_64
           sudo mv ldid_linux_x86_64 /usr/local/bin/ldid
           sudo chmod +x /usr/local/bin/ldid
           
-      - name: Install Theos and Toolchain
+      - name: Install Theos and Linux Toolchain
         run: |
           export THEOS=$HOME/theos
           git clone --recursive https://github.com/theos/theos.git $THEOS
           
-          # Tải bộ biên dịch iOS cho Linux
+          # Xoá toolchain cũ (nếu có) và tải bộ biên dịch chuẩn cho Linux
           rm -rf $THEOS/toolchain
           git clone --depth 1 https://github.com/theos/toolchain.git $THEOS/toolchain
-          cd $THEOS/toolchain
-          ./bootstrap.sh
           
           rm -rf $THEOS/sdks
           git clone https://github.com/theos/sdks.git $THEOS/sdks
