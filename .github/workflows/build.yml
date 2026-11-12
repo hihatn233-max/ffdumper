@@ -14,22 +14,20 @@ jobs:
           sudo mv ldid_linux_x86_64 /usr/local/bin/ldid
           sudo chmod +x /usr/local/bin/ldid
           
-      - name: Install Theos
+      - name: Install Theos and Toolchain
         run: |
           export THEOS=$HOME/theos
           git clone --recursive https://github.com/theos/theos.git $THEOS
+          git clone --recursive https://github.com/theos/toolchain.git $THEOS/toolchain
           rm -rf $THEOS/sdks
           git clone https://github.com/theos/sdks.git $THEOS/sdks
-          
-      - name: Setup Substrate Header
-        run: |
-          export THEOS=$HOME/theos
           mkdir -p $THEOS/include
           curl -L https://raw.githubusercontent.com/theos/headers/master/substrate/substrate.h -o $THEOS/include/substrate.h
           
       - name: Build Tweak
         run: |
           export THEOS=$HOME/theos
+          export PATH=$THEOS/toolchain/linux/iphone/bin:$THEOS/bin:$PATH
           export THEOS_PACKAGE_SCHEME=rootless
           make clean package
           
