@@ -5,10 +5,15 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Theos
+      - name: Install Theos and Dependencies
         run: |
+          brew install ldid xz
           git clone --recursive https://github.com/theos/theos.git $HOME/theos
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
+      - name: Setup Substrate Headers
+        run: |
+          git clone https://github.com/theos/headers.git $HOME/theos-headers
+          cp -r $HOME/theos-headers/substrate $HOME/theos/include/
       - name: Build
         run: |
           export THEOS=$HOME/theos
